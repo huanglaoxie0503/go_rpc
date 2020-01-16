@@ -9,13 +9,14 @@ import (
 
 func main() {
 	// 30秒超时时间
-	conn, err := net.DialTimeout("tcp", "localhost:8083", 30 * time.Second)
+	conn, err := net.DialTimeout("tcp", "localhost:8083", 30*time.Second)
 	if err != nil {
 		log.Fatalf("客户端发起连接失败：%v", err)
 	}
 	defer conn.Close()
-
 	client := jsonrpc.NewClient(conn)
+
+	// GetName
 	var item Item
 	err = client.Call("ServerHandler.GetName", 1, &item)
 	if err != nil {
@@ -23,6 +24,7 @@ func main() {
 	}
 	log.Printf("ServerHandler.GetName 返回结果：%v\n", item)
 
+	// SaveName
 	var resp RpcResponse
 	item = Item{
 		Id:   2,
